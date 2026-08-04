@@ -6,17 +6,17 @@ import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class APIStatusTest {
+public class StatusTest {
 
     @Test
-    public void testAPIStatus() {
-        // Implement your test logic here
+    public void testApiStatus() {
         Response response = ApiRequestBuilder.getRequest(ApiConfig.STATUS_ENDPOINT);
         int statusCode = response.getStatusCode();
-        Assert.assertEquals(statusCode, ApiConfig.HTTP_OK);
-        System.out.println("✓ Test passed: API status endpoint returned 200 OK");
+        Assert.assertEquals(statusCode, ApiConfig.HTTP_OK, "Status endpoint should return 200 OK");
+        
+        String status = response.jsonPath().getString("status");
+        Assert.assertNotNull(status, "Status field should not be null");
+        Assert.assertTrue(status.equalsIgnoreCase("ok"), "API status should be OK");
     }
-
-
 
 }

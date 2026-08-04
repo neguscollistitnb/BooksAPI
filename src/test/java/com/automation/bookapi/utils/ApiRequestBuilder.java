@@ -14,11 +14,42 @@ public class ApiRequestBuilder {
                 .accept("application/json");
     }
 
-public static Response getRequest(String  endpoint){
+    public static RequestSpecification getBaseRequestWithAuth(String token){
+        return getBaseRequest()
+                .header("Authorization", "Bearer " + token);
+    }
+
+    public static Response getRequest(String endpoint){
         return getBaseRequest()
                 .when()
                 .get(endpoint);
     }
 
-}
+    public static Response postRequest(String endpoint, String body){
+        return getBaseRequest()
+                .body(body)
+                .when()
+                .post(endpoint);
+    }
 
+    public static Response postRequestWithAuth(String endpoint, String body, String token){
+        return getBaseRequestWithAuth(token)
+                .body(body)
+                .when()
+                .post(endpoint);
+    }
+
+    public static Response patchRequestWithAuth(String endpoint, String body, String token){
+        return getBaseRequestWithAuth(token)
+                .body(body)
+                .when()
+                .patch(endpoint);
+    }
+
+    public static Response deleteRequestWithAuth(String endpoint, String token){
+        return getBaseRequestWithAuth(token)
+                .when()
+                .delete(endpoint);
+    }
+
+}
